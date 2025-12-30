@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saksham Shrestha</title>
+    <style>
+        /* CRITICAL DESIGN RULES IMPLEMENTATION */
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #000000; /* Black Background */
+            color: #00FF00; /* Neon Green Text */
+            font-family: 'Courier New', monospace; /* Monospace Font */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* For CRT effect containment */
+            overflow-y: auto;
+            position: relative;
+            /* Global Phosphor Glow */
+            text-shadow: 0 0 2px rgba(0, 255, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00FF00;
+            border: 1px solid #000;
+        }
+
+        /* Layout Containers */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 1.5rem; /* Balanced padding for mobile */
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 10;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+        }
+
+        /* Typography & Glow Effects */
+        header {
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            header {
+                margin-bottom: 2rem;
+            }
+        }
+
+        h1 {
+            /* Fluid typography: Minimum 1.5rem, Preferred 5vw, Maximum 3rem */
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            border-bottom: 2px solid #00FF00;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            line-height: 1.1;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        /* Glitch Animation Classes */
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(2deg); }
+            30% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        @keyframes glitch-shadow {
+            0% { text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+            10% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            20% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            30% { text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+            100% { text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+        }
+
+        .glitch-text-green {
+            animation: glitch-skew 6s infinite linear alternate-reverse, glitch-shadow 6s infinite linear alternate-reverse;
+        }
+
+        .glitch-text-pink {
+            animation: glitch-skew 7s infinite linear alternate-reverse, glitch-shadow 7s infinite linear alternate-reverse;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8) !important; /* Override base pink glow */
+        }
+        
+        .delay-1 { animation-delay: 1s; }
+        .delay-2 { animation-delay: 2.5s; }
+        .delay-3 { animation-delay: 4s; }
+
+
+        /* Navigation Styles */
+        nav {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px dashed #00FF00;
+            padding-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            nav {
+                margin-bottom: 3rem;
+                padding-bottom: 1.5rem;
+                gap: 2rem;
+            }
+        }
+
+        nav a {
+            color: #00FF00;
+            text-decoration: none;
+            /* Fluid typography for nav links */
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth pop */
+            display: inline-block;
+            cursor: pointer;
+            padding: 5px 8px; /* Slightly reduced padding for mobile fit */
+            border: 1px solid transparent;
+            white-space: nowrap;
+            transform-origin: center;
+        }
+
+        nav a:hover {
+            color: #FF00FF; /* Hot Pink Hover */
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #FF00FF,
+                0 0 20px #FF00FF,
+                0 0 30px #FF00FF,
+                0 0 50px #FF00FF; /* Intense Neon Glow */
+            letter-spacing: 3px; /* Retro expansion effect */
+            background: rgba(255, 0, 255, 0.15);
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            transform: scale(1.15); /* Noticeable scale up */
+            z-index: 20;
+        }
+        
+        @media (min-width: 768px) {
+            nav a:hover {
+                letter-spacing: 4px;
+                transform: scale(1.2);
+            }
+            nav a {
+                padding: 5px 10px;
+            }
+        }
+
+        /* Active Navigation State */
+        nav a.active-link {
+            color: #FF00FF;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+            border-bottom: 2px solid #FF00FF;
+            background: rgba(255, 0, 255, 0.05);
+            transform: scale(1.05); /* Keep active link slightly larger */
+        }
+
+        nav a::before {
+            content: '[';
+            margin-right: 3px;
+            color: #00FF00;
+            opacity: 0.7;
+            display: inline-block;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        nav a::after {
+            content: ']';
+            margin-left: 3px;
+            color: #00FF00;
+            opacity: 0.7;
+            display: inline-block;
+            transition: transform 0.3s, color 0.3s;
+        }
+        
+        @media (min-width: 768px) {
+            nav a::before { margin-right: 5px; }
+            nav a::after { margin-left: 5px; }
+        }
+        
+        nav a:hover::before {
+            transform: translateX(-5px);
+            color: #FF00FF;
+            text-shadow: 0 0 5px #FF00FF;
+        }
+
+        nav a:hover::after {
+            transform: translateX(5px);
+            color: #FF00FF;
+            text-shadow: 0 0 5px #FF00FF;
+        }
+        
+        nav a.active-link::before,
+        nav a.active-link::after {
+            color: #FF00FF;
+            opacity: 1;
+        }
+
+        /* Section Titles */
+        h2 {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #FF00FF; /* Hot Pink */
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+            letter-spacing: 1px;
+            word-break: break-all; /* Handles long system style paths */
+            line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+            h2 {
+                letter-spacing: 2px;
+                word-break: normal;
+            }
+        }
+
+        p {
+            /* Fluid typography for body text */
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            line-height: 1.6;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+        }
+
+        /* About Section Layout */
+        .about-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem; /* Space between items */
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Desktop Layout (> 1100px) */
+        @media (min-width: 1100px) {
+            .about-content-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 2rem;
+            }
+            
+            .about-text {
+                flex: 1; /* Takes remaining space */
+                padding: 0 1.5rem;
+                min-width: 0; /* Prevents flex overflow */
+            }
+            
+            .about-image-container {
+                /* Remove fixed width to allow image natural aspect ratio */
+                flex: 0 0 auto; 
+                width: auto;
+                display: flex;
+                justify-content: center;
+                position: relative;
+            }
+        }
+
+        /* Parallax Wrapper */
+        .parallax-wrapper {
+            width: 100%;
+            display: block;
+            will-change: transform;
+            pointer-events: auto;
+            position: relative;
+        }
+
+        /* Profile Image Common Styles */
+        .profile-image {
+            display: block;
+            width: 100%;
+            height: auto; 
+            object-fit: cover; /* Ensures image fills the box without distortion */
+            
+            /* Responsive Sizing Cap for Mobile */
+            max-width: 400px;
+            
+            transition: all 0.3s ease;
+            filter: contrast(1.1) brightness(0.9);
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        
+        /* Desktop: Fixed height, auto width to prevent cropping while ensuring equal height */
+        @media (min-width: 1100px) {
+            .profile-image {
+                height: 550px; /* Increased from 425px to make images larger */
+                width: auto;   /* Allow width to adjust naturally */
+                max-width: 100%; /* Prevent overflow */
+            }
+        }
+
+        .profile-image:hover {
+            transform: scale(1.02);
+            filter: contrast(1.2) brightness(1);
+        }
+
+        /* Style Variant: Pink (Right) */
+        .style-pink {
+            border: 2px solid #FF00FF;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+        }
+        .style-pink:hover {
+            box-shadow: 0 0 25px #FF00FF;
+        }
+
+        /* Style Variant: Green (Left) */
+        .style-green {
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+        }
+        .style-green:hover {
+            box-shadow: 0 0 25px #00FF00;
+        }
+
+        /* Contact List Styles */
+        .terminal-list {
+            list-style: none;
+            padding: 0;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+        }
+        
+        .terminal-list li {
+            margin-bottom: 0.8rem;
+            word-break: break-all; /* Ensure emails don't overflow on tiny screens */
+        }
+        
+        @media (min-width: 480px) {
+            .terminal-list li {
+                word-break: normal;
+            }
+        }
+
+        .terminal-list a {
+            color: #00FF00;
+            text-decoration: underline;
+        }
+        .terminal-list a:hover {
+            color: #FF00FF;
+            text-decoration: none;
+        }
+
+        /* Form Styles */
+        .form-container {
+            margin-top: 1rem;
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .input-group {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00FF00;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-weight: bold;
+        }
+
+        .input-group input, 
+        .input-group textarea {
+            width: 100%;
+            background: rgba(0, 20, 0, 0.3);
+            border: none;
+            border-bottom: 2px solid #00FF00;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            padding: 0.8rem 0.5rem;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.1);
+            box-sizing: border-box; /* Ensure padding doesn't overflow width */
+        }
+        
+        @media (min-width: 768px) {
+            .input-group input, 
+            .input-group textarea {
+                font-size: 1.2rem;
+            }
+            .input-group label {
+                font-size: 1rem;
+            }
+        }
+
+        .input-group input:focus, 
+        .input-group textarea:focus {
+            background: rgba(0, 255, 0, 0.15);
+            padding-left: 15px;
+            border-bottom-color: #FF00FF;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            color: #FFFFFF;
+        }
+
+        /* Submit Button */
+        .submit-cmd {
+            background: transparent;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            padding: 0.8rem 1rem;
+            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+            white-space: normal; /* Allow text wrap on small screens */
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .submit-cmd {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        .submit-cmd:hover {
+            background: #00FF00;
+            color: #000000;
+            box-shadow: 0 0 25px #00FF00;
+            text-shadow: none;
+        }
+
+        .submit-cmd:active {
+            transform: scale(0.98);
+        }
+
+        .status-message {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            min-height: 1.5rem;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem 1.5rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            border-top: 1px solid #00FF00;
+            margin-top: auto;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            footer {
+                font-size: 0.9rem;
+                padding: 3rem 2rem 2rem;
+            }
+        }
+
+        /* Retro Side Images (ASCII Art) */
+        .retro-side-img {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px; /* Small font for high res ASCII */
+            line-height: 10px;
+            pointer-events: none; /* Allows clicking through */
+            z-index: 5;
+            opacity: 0.6;
+            display: none; /* Hidden by default on mobile */
+            white-space: pre;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        /* Only show on large screens to avoid overlap */
+        @media (min-width: 1200px) {
+            .retro-side-img {
+                display: block;
+            }
+        }
+
+        /* 80s Hacker / Cyberpunk Effects */
+        
+        /* Cursor Blink */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.5rem;
+            background-color: #00FF00;
+            vertical-align: bottom;
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+        }
+        
+        @media (min-width: 768px) {
+            .cursor {
+                width: 15px;
+                height: 3rem;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.6)
+            );
+            background-size: 100% 3px; /* Tighter lines */
+            pointer-events: none;
+            z-index: 100; /* Moved above content for authenticity */
+            opacity: 0.6; /* Visible effect */
+        }
+
+        /* Screen Flicker */
+        .flicker-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 0, 0.02);
+            pointer-events: none;
+            z-index: 100; /* Moved above content */
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.9; }
+            50% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+
+        /* CRT Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,1) 100%);
+            box-shadow: inset 0 0 5rem rgba(0,0,0,0.5);
+            pointer-events: none;
+            z-index: 100; /* Moved above content so it darkens the text at edges */
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* View Management */
+        .view-section {
+            display: none;
+        }
+        
+        .view-section.active-view {
+            display: block;
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 90; /* Under CRT effects (100) but above content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease-out;
+            padding: 1rem;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .loading-content {
+            width: 100%;
+            max-width: 320px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .loading-title {
+            color: #00FF00;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            color: #FF00FF;
+            font-size: 1rem; /* Smaller font on mobile */
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.8);
+            white-space: pre;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 400px) {
+            .progress-bar {
+                font-size: 1.2rem;
+            }
+        }
+
+        .loading-status {
+            color: #00FF00;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            min-height: 1.2em;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+
+    <!-- Visual Effects -->
+    <div class="scanlines"></div>
+    <div class="flicker-overlay"></div>
+    <div class="vignette"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-title glitch-text-green">INITIALIZING SYSTEM v2.0...</div>
+            <div id="progress-bar" class="progress-bar">[....................]</div>
+            <div id="loading-status" class="loading-status">> CHECKING MEMORY...</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="reveal">
+            <h1 class="glitch-text-green delay-2">Saksham Shrestha<span class="cursor"></span></h1>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="reveal">
+            <a href="#" id="link-about" onclick="switchView('about'); return false;" class="active-link">About Me</a>
+            <a href="#" id="link-contact" onclick="switchView('contact'); return false;">Contact</a>
+        </nav>
+        
+        <main>
+            <!-- About Me View -->
+            <div id="view-about" class="view-section active-view">
+                <section>
+                    <h2 class="reveal glitch-text-pink delay-1">//System.Root.User_Profile</h2>
+                    <div class="about-content-wrapper">
+                        <!-- Left Image (New) -->
+                        <div class="about-image-container left-image reveal">
+                            <div class="parallax-wrapper" data-speed="0.04">
+                                <img src="https://sakshamshrestha.com.np/cybergirl-1.jpg" alt="Saksham Retro Style 1" class="profile-image style-green" onerror="this.style.display='none'">
+                            </div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <div class="about-text">
+                            <p class="reveal">
+                                Yo, welcome to the site.
+                            </p>
+                            <p class="reveal">
+                                I’m Saksham. Yeah, I know this looks like a computer from 1998. That’s the point. 👾
+                            </p>
+                            <p class="reveal">
+                                Honestly, I got bored of how every website looks exactly the same these days, so I made this. It’s got that old-school aesthetic but runs on modern code (pretty sick, right?).
+                            </p>
+                            <p class="reveal">
+                                It’s basically a time machine. I’m mixing the best stuff from the past with the tools we have now. Why? Because the classics just hit different.
+                            </p>
+                            <p class="reveal">
+                                So look around, click some stuff, and hopefully, nothing crashes. Thanks for stopping by!
+                            </p>
+                            <p class="reveal">
+                                Peace, Saksham
+                            </p>
+                        </div>
+
+                        <!-- Right Image (Existing) -->
+                        <div class="about-image-container right-image reveal">
+                            <div class="parallax-wrapper" data-speed="-0.04">
+                                <img src="https://sakshamshrestha.com.np/cybergirl-2.jpg" alt="Saksham Retro Style 2" class="profile-image style-pink" onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Contact View -->
+            <div id="view-contact" class="view-section">
+                <section>
+                    <h2 class="reveal glitch-text-pink delay-3">//System.Comms.Init</h2>
+                    <p class="reveal">
+                        ESTABLISH UPLINK TO SAKSHAM_SHRESTHA...
+                    </p>
+
+                    <div class="form-container reveal">
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)">
+                            <div class="input-group">
+                                <label for="name" class="glitch-text-green delay-1">USER.ID ></label>
+                                <input type="text" id="name" required autocomplete="off" placeholder="[ENTER_NAME]">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="email" class="glitch-text-green delay-2">RETURN.ADDR ></label>
+                                <input type="email" id="email" required autocomplete="off" placeholder="[ENTER_EMAIL]">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="message">DATA.PACKET ></label>
+                                <textarea id="message" rows="4" required placeholder="[ENTER_MESSAGE]"></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-cmd">
+                                [ EXECUTE_TRANSMISSION ]
+                            </button>
+                            <div id="form-status" class="status-message" style="display:none; color: #FF00FF;"></div>
+                        </form>
+                    </div>
+
+                    <div class="reveal" style="margin-top: 3rem; border-top: 1px dashed #00FF00; padding-top: 1rem;">
+                        <p style="font-size: 0.9rem; opacity: 0.8;">// ALTERNATE_CHANNELS</p>
+                        <ul class="terminal-list">
+                            <li>&gt; EMAIL: <a href="mailto:saksham@example.com">saksham@example.com</a></li>
+                            <li>&gt; GITHUB: @SakshamShrestha</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2014 Saksham Shrestha
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- SOUND SYSTEM START ---
+        // Standalone Web Audio API implementation for the static page
+        class SoundSystem {
+            constructor() {
+                this.audioContext = null;
+                this.gainNode = null;
+                this.initialized = false;
+            }
+
+            init() {
+                if (this.initialized) return;
+                
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+
+                this.audioContext = new AudioContext();
+                this.gainNode = this.audioContext.createGain();
+                this.gainNode.connect(this.audioContext.destination);
+                this.gainNode.gain.value = 0.1; // Master volume
+                
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+                
+                this.initialized = true;
+            }
+
+            playTone(type, freq, duration) {
+                if (!this.initialized) this.init();
+                if (!this.audioContext || !this.gainNode) return;
+
+                const osc = this.audioContext.createOscillator();
+                const envelope = this.audioContext.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.audioContext.currentTime);
+
+                osc.connect(envelope);
+                envelope.connect(this.gainNode);
+
+                envelope.gain.setValueAtTime(0, this.audioContext.currentTime);
+                envelope.gain.linearRampToValueAtTime(1, this.audioContext.currentTime + 0.01);
+                envelope.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                osc.start();
+                osc.stop(this.audioContext.currentTime + duration);
+            }
+
+            hover() {
+                // High pitch short blip
+                this.playTone('square', 800, 0.05);
+            }
+
+            click() {
+                // Lower pitch confirmation
+                this.playTone('sawtooth', 300, 0.1);
+            }
+
+            submitProcess() {
+                if (!this.initialized) this.init();
+                if (!this.audioContext) return;
+
+                // Modem-like processing sound
+                let time = this.audioContext.currentTime;
+                for (let i = 0; i < 10; i++) {
+                    const osc = this.audioContext.createOscillator();
+                    const env = this.audioContext.createGain();
+                    osc.type = 'square';
+                    osc.frequency.value = 200 + Math.random() * 1000;
+                    
+                    osc.connect(env);
+                    env.connect(this.gainNode);
+                    
+                    env.gain.setValueAtTime(0.1, time);
+                    env.gain.linearRampToValueAtTime(0, time + 0.1);
+                    
+                    osc.start(time);
+                    osc.stop(time + 0.1);
+                    time += 0.08;
+                }
+            }
+            
+            success() {
+                 if (!this.initialized) this.init();
+                if (!this.audioContext) return;
+                
+                // Success arpeggio
+                const notes = [440, 554, 659, 880];
+                let time = this.audioContext.currentTime;
+                
+                notes.forEach(note => {
+                    this.playTone('square', note, 0.2); // Uses playTone but overrides timing in loop if needed, simplified here
+                    
+                    // Manual triggering to ensure timing
+                    const osc = this.audioContext.createOscillator();
+                    const env = this.audioContext.createGain();
+                    osc.type = 'square';
+                    osc.frequency.value = note;
+                    osc.connect(env);
+                    env.connect(this.gainNode);
+                    env.gain.setValueAtTime(0, time);
+                    env.gain.linearRampToValueAtTime(0.2, time + 0.05);
+                    env.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
+                    osc.start(time);
+                    osc.stop(time + 0.3);
+                    time += 0.1;
+                });
+            }
+        }
+
+        const soundSystem = new SoundSystem();
+
+        // Unlock audio on first interaction
+        document.addEventListener('click', () => soundSystem.init(), { once: true });
+        document.addEventListener('keydown', () => soundSystem.init(), { once: true });
+
+        // Attach sounds to elements
+        function attachSoundListeners() {
+            const interactables = document.querySelectorAll('a, button, input, textarea, .submit-cmd');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => soundSystem.hover());
+                el.addEventListener('click', () => soundSystem.click());
+            });
+        }
+        
+        // Wait for DOM
+        document.addEventListener('DOMContentLoaded', attachSoundListeners);
+        // --- SOUND SYSTEM END ---
+
+        // View Switching Logic
+        function switchView(viewId) {
+            // Sound is handled by event listener above
+            
+            // 1. Update Navigation Styling
+            document.querySelectorAll('nav a').forEach(el => el.classList.remove('active-link'));
+            document.getElementById('link-' + viewId).classList.add('active-link');
+
+            // 2. Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active-view');
+                // Reset animations in hidden views
+                el.querySelectorAll('.reveal').forEach(r => {
+                    r.classList.remove('active');
+                });
+            });
+            
+            // 3. Show selected view
+            const activeView = document.getElementById('view-' + viewId);
+            activeView.classList.add('active-view');
+
+            // 4. Trigger animations for the newly visible elements
+            triggerAnimations(activeView);
+        }
+
+        function triggerAnimations(container) {
+            const elements = container.querySelectorAll('.reveal');
+            elements.forEach((el, index) => {
+                // Stagger animations by 100ms
+                setTimeout(() => {
+                    el.classList.add('active');
+                }, index * 100);
+            });
+        }
+
+        // Form Handling Logic
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Play processing sound
+            soundSystem.submitProcess();
+
+            const form = document.getElementById('contact-form');
+            const inputs = form.querySelectorAll('input, textarea, button');
+            const statusDiv = document.getElementById('form-status');
+            
+            // Disable inputs
+            inputs.forEach(input => input.disabled = true);
+            
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = "> ENCRYPTING DATA...";
+            
+            setTimeout(() => {
+                statusDiv.textContent = "> UPLOADING TO SERVER [||||||....]";
+                setTimeout(() => {
+                    statusDiv.textContent = "> UPLOADING TO SERVER [||||||||||]";
+                    setTimeout(() => {
+                        // Play success sound
+                        soundSystem.success();
+                        
+                        statusDiv.style.color = '#00FF00';
+                        statusDiv.innerHTML = "TRANSMISSION COMPLETE.<br>USER SAKSHAM WILL RESPOND SHORTLY.";
+                        
+                        // Reset after delay
+                        setTimeout(() => {
+                            form.reset();
+                            inputs.forEach(input => input.disabled = false);
+                            statusDiv.style.display = 'none';
+                            statusDiv.style.color = '#FF00FF';
+                        }, 4000);
+                    }, 800);
+                }, 800);
+            }, 800);
+        }
+
+        // Loading Screen Script
+        (function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressBar = document.getElementById('progress-bar');
+            const loadingStatus = document.getElementById('loading-status');
+            
+            const totalChars = 20;
+            const statuses = [
+                "CHECKING MEMORY...",
+                "LOADING DRIVERS...",
+                "MOUNTING VIRTUAL DOM...",
+                "DECRYPTING SECURE SHELL...",
+                "RENDERING PIXELS...",
+                "SYSTEM READY."
+            ];
+            
+            let progress = 0;
+            
+            // Start simulation
+            const interval = setInterval(() => {
+                // Randomize progress speed
+                progress += Math.random() * 3 + 1;
+                if (progress > 100) progress = 100;
+                
+                // Update bar
+                const filled = Math.floor((progress / 100) * totalChars);
+                const empty = totalChars - filled;
+                const barText = "[" + "=".repeat(filled) + ".".repeat(empty) + "]";
+                progressBar.textContent = barText;
+                
+                // Update status text
+                const statusIndex = Math.floor((progress / 100) * (statuses.length - 1));
+                loadingStatus.textContent = "> " + statuses[statusIndex];
+                
+                // Finish
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            
+                            // Trigger initial "About" view animations after loading
+                            // Reveal header/nav first
+                            document.querySelector('header').classList.add('active');
+                            document.querySelector('nav').classList.add('active');
+                            // Then reveal the active view content
+                            triggerAnimations(document.getElementById('view-about'));
+                            
+                            // Try to init sound (might fail if no interaction yet, which is fine)
+                            soundSystem.init();
+                            
+                        }, 500);
+                    }, 200);
+                }
+            }, 40); // Slightly faster for UX
+        })();
+
+        // Parallax Effect Script
+        (function() {
+            const wrappers = document.querySelectorAll('.parallax-wrapper');
+            let ticking = false;
+
+            function updateParallax() {
+                const windowHeight = window.innerHeight;
+                
+                wrappers.forEach(wrapper => {
+                    const speed = parseFloat(wrapper.getAttribute('data-speed') || '0.05');
+                    const rect = wrapper.parentElement.getBoundingClientRect(); 
+                    
+                    // Simple check if roughly in view to save resources
+                    // Note: rect.top is relative to viewport
+                    if (rect.bottom > -100 && rect.top < windowHeight + 100) {
+                        // Calculate offset: 0 at center of screen
+                        const centerOffset = (windowHeight / 2) - (rect.top + rect.height / 2);
+                        const yPos = centerOffset * speed;
+                        wrapper.style.transform = `translateY(${yPos}px)`;
+                    }
+                });
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            });
+            
+            // Initial calculation
+            updateParallax();
+        })();
+    </script>
+</body>
+</html>
