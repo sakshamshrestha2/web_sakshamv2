@@ -231,7 +231,7 @@
             font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: #FF00FF; /* Hot Pink */
             margin-top: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem; /* Increased from 1rem to 2rem to prevent overlap on mobile */
             text-transform: uppercase;
             text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
             letter-spacing: 1px;
@@ -296,6 +296,13 @@
             will-change: transform;
             pointer-events: auto;
             position: relative;
+        }
+
+        /* Disable parallax translation on mobile to prevent overlapping */
+        @media (max-width: 1099px) {
+            .parallax-wrapper {
+                transform: none !important;
+            }
         }
 
         /* Profile Image Common Styles */
