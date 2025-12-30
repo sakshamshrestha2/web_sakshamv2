@@ -45,7 +45,7 @@
             display: flex;
             flex-direction: column;
             padding: 1rem 1.5rem; /* Balanced padding for mobile */
-            max-width: 1200px;
+            max-width: 1200px; /* Standardized width */
             margin: 0 auto;
             z-index: 10;
             box-sizing: border-box;
@@ -264,28 +264,26 @@
             width: 100%;
         }
 
-        /* Desktop Layout (> 1100px) */
-        @media (min-width: 1100px) {
+        /* Desktop Layout (> 1024px) - Original Breakpoint */
+        @media (min-width: 1024px) {
             .about-content-wrapper {
                 flex-direction: row;
                 align-items: flex-start;
-                justify-content: space-between;
-                gap: 2rem;
+                justify-content: center;
+                gap: 3rem;
             }
             
             .about-text {
-                flex: 1; /* Takes remaining space */
-                padding: 0 1.5rem;
-                min-width: 0; /* Prevents flex overflow */
+                flex: 1;
+                padding: 0 1rem;
+                /* Limit text width for readability */
+                max-width: 600px;
             }
             
             .about-image-container {
-                /* Remove fixed width to allow image natural aspect ratio */
-                flex: 0 0 auto; 
+                flex: 0 0 auto;
                 width: auto;
-                display: flex;
-                justify-content: center;
-                position: relative;
+                margin-top: 0.5rem;
             }
         }
 
@@ -299,7 +297,7 @@
         }
 
         /* Disable parallax translation on mobile to prevent overlapping */
-        @media (max-width: 1099px) {
+        @media (max-width: 1023px) {
             .parallax-wrapper {
                 transform: none !important;
             }
@@ -310,10 +308,10 @@
             display: block;
             width: 100%;
             height: auto; 
-            object-fit: cover; /* Ensures image fills the box without distortion */
+            object-fit: cover; 
             
-            /* Responsive Sizing Cap for Mobile */
-            max-width: 400px;
+            /* Mobile constraint */
+            max-width: 400px; 
             
             transition: all 0.3s ease;
             filter: contrast(1.1) brightness(0.9);
@@ -321,12 +319,10 @@
             box-sizing: border-box;
         }
         
-        /* Desktop: Fixed height, auto width to prevent cropping while ensuring equal height */
-        @media (min-width: 1100px) {
+        /* Desktop: Standard Sizing & Symmetry */
+        @media (min-width: 1024px) {
             .profile-image {
-                height: 550px; /* Increased from 425px to make images larger */
-                width: auto;   /* Allow width to adjust naturally */
-                max-width: 100%; /* Prevent overflow */
+                max-width: 320px; /* Revert to auto sizing with max-width */
             }
         }
 
@@ -727,7 +723,7 @@
                     <div class="about-content-wrapper">
                         <!-- Left Image (New) -->
                         <div class="about-image-container left-image reveal">
-                            <div class="parallax-wrapper" data-speed="0.04">
+                            <div class="parallax-wrapper" data-speed="-0.04">
                                 <img src="https://saksham-shrestha-n22rf.kinsta.page/cybergirl-1.jpg" alt="Saksham Retro Style 1" class="profile-image style-green" onerror="this.style.display='none'">
                             </div>
                         </div>
